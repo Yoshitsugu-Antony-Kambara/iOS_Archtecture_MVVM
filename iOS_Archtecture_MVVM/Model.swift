@@ -4,6 +4,12 @@
 //
 //  Created by 神原良継 on 2022/03/22.
 //
+/**
+ Modelの責務
+ ・protocol化して疎結合に、テスタブルにする
+ ・Observableを返却して、ViewModelとの建て付けをよくする
+ **/
+
 
 import Foundation
 import RxCocoa
@@ -15,6 +21,11 @@ enum ModelError: Error {
     case invalidIdAndPassword
 }
 
+/**
+ ViewModelからはModelに直接依存するのではなく、Modelのprotocolに依存するようにしておくと、DIができるようになる。
+ 疎結合になってテスタブルにもなる
+ ViewModelにModelを外部から注入できるようにすることで、ModelをTextBoudbleと置き換えて、特定の入力のみを返すようにできる。←テストしやすくなる
+ **/
 protocol ModelProtocol {
     func validate(idText: String?, passwordText: String?) -> Observable<Void>
 }
